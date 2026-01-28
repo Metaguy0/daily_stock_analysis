@@ -1,0 +1,32 @@
+name: Send Email Notification
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up msmtp
+        run: |
+          # 安装 msmtp 邮件发送工具
+          sudo apt-get update
+          sudo apt-get install -y msmtp
+
+      - name: Send email notification
+        run: |
+          # 配置 msmtp 邮件客户端
+          echo "from=${{ secrets.EMAIL_SENDER }}" > ~/.msmtprc
+          echo "to=${{ secrets.EMAIL_RECEIVERS }}" >> ~/.msmtprc
+          echo "host=smtp.qq.com" >> ~/.msmtprc
+          echo "port=587" >> ~/.msmtprc
+          echo "auth=on" >> ~/.msmtprc
+          echo "user=${{ secrets.EMAIL_SENDER }}" >> ~/.msmtprc
+          echo "password=${{ secrets.EMAIL_PASSWORD }}" >> ~/.msmtprc
+          echo "tls=on" >> ~/.msmtprc
+          echo "tls_trust_file=/etc/ssl/certs/ca-certificates.crt" >> ~/.msmtprc
+          
+          # 发送邮件
+          echo -e "Subject: GitHub Actions - Code Push Notification\n\nA push event has been triggered in the GitHub repository." | msmtp "${{ secrets.EMAIL_RECEIVERS }}"
