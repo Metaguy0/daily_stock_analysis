@@ -12,7 +12,8 @@ on:
       mode:
         description: '运行模式'
         required: true
-        default: 'full'
+        # default: 'full'
+        default: 'stocks-only'  #自行修改，默认只分析股票
         type: choice
         options:
           - full          # 完整分析（股票+大盘）
