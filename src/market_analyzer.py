@@ -261,8 +261,7 @@ class MarketAnalyzer:
             logger.info("[大盘] 获取市场涨跌统计...")
             
             # 获取全部A股实时行情
-            # df = self._call_akshare_with_retry(ak.stock_zh_a_spot_em, "A股实时行情", attempts=2)
-            df = self._call_akshare_with_retry(ak.stock_zh_a_spot, "A股实时行情", attempts=2) #自行把spot_em改成spot，从东财切换到新浪
+            df = self._call_akshare_with_retry(ak.stock_zh_a_spot_em, "A股实时行情", attempts=2)
             if df is not None and not df.empty:
                 # 涨跌统计
                 change_col = '涨跌幅'
